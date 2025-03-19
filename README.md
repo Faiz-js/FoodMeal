@@ -1,0 +1,1 @@
+Used an third-party api to fetch the recipe of the food and display the recipe and ingridients on the frontend.
