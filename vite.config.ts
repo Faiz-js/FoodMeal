@@ -12,6 +12,12 @@ export default defineConfig({
       },
     },
   },
+  define: {
+    'process.env.VITE_API_URL': JSON.stringify(process.env.NODE_ENV === 'production' 
+      ? 'https://www.themealdb.com/api'
+      : '/api'
+    ),
+  },
   plugins: [react()],
   resolve: {
     alias: {
