@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://www.themealdb.com", 
+        target: "https://www.themealdb.com", 
         changeOrigin: true,
         rewrite: (path) => path,
       },
