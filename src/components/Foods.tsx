@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,9 +24,14 @@ export default function Foods() {
 
   async function getFoods() {
     try {
-      const res = await axios.get("/api/json/v1/1/search.php?f=b");
-      setFood(res.data.meals);
-      console.log(res.data.meals);
+      const apiUrl = import.meta.env.MODE === 'production' 
+        ? import.meta.env.VITE_API_BASE_URL
+        : '/api';
+      
+      const res = await fetch(`${apiUrl}/search.php?f=b`);
+      const data = await res.json();
+      setFood(data.meals);
+      console.log(data.meals);
     } catch (error) {
       console.log("ERROR", error);
     }

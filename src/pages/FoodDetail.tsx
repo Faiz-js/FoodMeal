@@ -1,5 +1,4 @@
 import Details from "@/components/Details";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -53,9 +52,15 @@ export default function FoodDetail() {
 
   async function getFoodetailsById() {
     try {
-      const res = await axios.get(`/api/json/v1/1/lookup.php?i=${idMeal}`);
-      setFoodDetail(res.data.meals);
-      console.log(res.data);
+      const apiUrl =
+        import.meta.env.MODE === "production"
+          ? import.meta.env.VITE_API_BASE_URL
+          : "/api";
+
+      const res = await fetch(`${apiUrl}/lookup.php?i=${idMeal}`);
+      const data = await res.json();
+      setFoodDetail(data.meals);
+      console.log(data);
     } catch (error) {
       console.log("ERROR", error);
     }
@@ -98,6 +103,8 @@ export default function FoodDetail() {
           </ul>
           <a
             href={f.strYoutube}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-center font-semibold break-words text-white bg-black rounded-md p-3"
           >
             Watch on Youtube

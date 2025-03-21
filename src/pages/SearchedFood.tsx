@@ -1,5 +1,4 @@
 import Details from "@/components/Details";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -53,8 +52,13 @@ export default function SearchedFood() {
 
   async function searchFood() {
     try {
-      const res = await axios.get(`/api/json/v1/1/search.php?s=${query}`);
-      setFoodDetail(res.data.meals?.[0] || null);
+      const apiUrl = import.meta.env.MODE === 'production' 
+        ? import.meta.env.VITE_API_BASE_URL
+        : '/api';
+      
+      const res = await fetch(`${apiUrl}/search.php?s=${query}`);
+      const data = await res.json();
+      setFoodDetail(data.meals?.[0] || null);
     } catch (error) {
       console.log("Error", error);
     }
